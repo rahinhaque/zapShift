@@ -35,7 +35,7 @@ export default function FAQSection() {
   return (
     <div className="max-w-4xl mx-auto px-6 py-16">
       {/* Heading */}
-      <h2 className="text-3xl font-bold mb-3 text-[#1F1F1F]">
+      <h2 className="text-3xl font-bold mb-3 text-secondary">
         Frequently Asked Questions (FAQ)
       </h2>
 
@@ -55,7 +55,7 @@ export default function FAQSection() {
           >
             {/* Question Row */}
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-medium text-[#1F1F1F]">
+              <h3 className="text-lg font-medium text-secondary">
                 {item.question}
               </h3>
 
