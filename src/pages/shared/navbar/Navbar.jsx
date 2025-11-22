@@ -6,22 +6,64 @@ const Navbar = () => {
   const links = (
     <>
       <li>
-        <NavLink to="">Sevices</NavLink>
+        <NavLink
+          to=""
+          className={({ isActive }) =>
+            isActive ? "text-primary font-bold underline" : ""
+          }
+        >
+          Sevices
+        </NavLink>
       </li>
       <li>
-        <NavLink to="/coverage">Coverage</NavLink>
+        <NavLink
+          to="/coverage"
+          className={({ isActive }) =>
+            isActive ? "text-primary font-bold underline" : ""
+          }
+        >
+          Coverage
+        </NavLink>
       </li>
       <li>
-        <NavLink to="/about">About Us</NavLink>
+        <NavLink
+          to="/about"
+          className={({ isActive }) =>
+            isActive ? "text-primary font-bold underline" : ""
+          }
+        >
+          About Us
+        </NavLink>
       </li>
       <li>
-        <NavLink to="">Pricing</NavLink>
+        <NavLink
+          to="/pricing"
+          className={({ isActive }) =>
+            isActive ? "text-primary font-bold underline" : ""
+          }
+        >
+          Pricing
+        </NavLink>
       </li>
       <li>
-        <NavLink to="">Blog</NavLink>
+        <NavLink
+          to="/blog"
+          className={({ isActive }) =>
+            isActive ? "text-primary font-bold underline" : ""
+          }
+        >
+          Blog
+        </NavLink>
       </li>
       <li>
-        <NavLink to="">Contact</NavLink>
+        <NavLink
+          to="/contact"
+          className={({ isActive }) =>
+            isActive ? "text-primary font-bold underline" : ""
+          }
+        >
+          Contact
+        </NavLink>
       </li>
     </>
   );
@@ -59,9 +101,7 @@ const Navbar = () => {
         </a>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
-        {links}
-        </ul>
+        <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
       <div className="navbar-end">
         <a className="btn">Button</a>
