@@ -6,13 +6,14 @@ import Loading from '../components/Loading/Loading';
 
 const RootLayout = () => {
   return (
-    <div className="">
-      <Navbar></Navbar>
-      <Suspense fallback={<Loading/>}>
-        <Outlet></Outlet>
-      </Suspense>
-
-      <Footer></Footer>
+    <div className="min-h-screen flex flex-col">
+      <Navbar />
+      <div className="flex-1">
+        <Suspense fallback={<Loading />}>
+          <Outlet />
+        </Suspense>
+      </div>
+      <Footer />
     </div>
   );
 };
