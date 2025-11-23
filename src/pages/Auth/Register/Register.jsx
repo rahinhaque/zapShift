@@ -1,5 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import useAuth from "../../../hooks/useAuth";
 
 const Register = () => {
   const {
@@ -8,52 +9,88 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
+  const { registerUser } = useAuth();
+
   const handleRegistration = (data) => {
-    console.log("AFter REgi", data);
+    console.log("After Register", data);
+    registerUser(data.email, data.password)
+      .then((result) => {
+        console.log(result.user);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
+
   return (
-    <div>
-      <form onSubmit={handleSubmit(handleRegistration)}>
-        <fieldset className="fieldset">
+    <div className="w-full">
+      {/* Title */}
+      <h3 className="text-3xl font-bold text-primary text-center mb-2">
+        Create an Account
+      </h3>
+      <p className="text-center text-secondary mb-6">Register to get started</p>
+
+      {/* Card */}
+      <form
+        onSubmit={handleSubmit(handleRegistration)}
+        className="bg-white shadow-md rounded-xl p-8 space-y-4 border border-gray-100"
+      >
+        <fieldset className="fieldset space-y-4">
           {/* Email */}
-          <label className="label">Email</label>
-          <input
-            type="email"
-            {...register("email", { required: true })}
-            className="input"
-            placeholder="Email"
-          />
-          {errors.email?.type === "required" && (
-            <p className="text-red-500">Email is Requierd!</p>
-          )}
-          {/* Passoword  */}
-          <label className="label">Password</label>
-          <input
-            type="password"
-            {...register("password", {
-              required: true,
-              minLength: 6,
-              maxLength: 20,
-              pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/,
-            })}
-            className="input"
-            placeholder="Password"
-          />
-          {errors.password?.type === "required" && (
-            <p className="text-red-500">Password is requierd</p>
-          )}
-          {errors.password?.type === "minLength" && (
-            <p className="text-red-500">Password Must Be 6 Character Long</p>
-          )}
-          {
-            errors.password?.type === "pattern" && (
-              <p className="text-red-500">Make Password More Strong!!</p>
-            )
-          }
           <div>
-            <a className="link link-hover">Forgot password?</a>
+            <label className="label font-medium text-gray-700">Email</label>
+            <input
+              type="email"
+              {...register("email", { required: true })}
+              className="input input-bordered w-full rounded-lg"
+              placeholder="Enter your email"
+            />
+            {errors.email?.type === "required" && (
+              <p className="text-red-500 text-sm mt-1">Email is required!</p>
+            )}
           </div>
-          <button className="btn btn-neutral mt-4">Login</button>
+
+          {/* Password */}
+          <div>
+            <label className="label font-medium text-gray-700">Password</label>
+            <input
+              type="password"
+              {...register("password", {
+                required: true,
+                minLength: 6,
+                maxLength: 20,
+                pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/,
+              })}
+              className="input input-bordered w-full rounded-lg"
+              placeholder="Create a password"
+            />
+
+            {errors.password?.type === "required" && (
+              <p className="text-red-500 text-sm mt-1">Password is required</p>
+            )}
+            {errors.password?.type === "minLength" && (
+              <p className="text-red-500 text-sm mt-1">
+                Password must be at least 6 characters
+              </p>
+            )}
+            {errors.password?.type === "pattern" && (
+              <p className="text-red-500 text-sm mt-1">
+                Password must include letters and numbers
+              </p>
+            )}
+          </div>
+
+          {/* Forgot Password (same as login) */}
+          <div className="flex justify-end">
+            <a className="link text-sm text-blue-600 hover:underline">
+              Forgot password?
+            </a>
+          </div>
+
+          {/* Submit Button */}
+          <button className="btn btn-primary text-gray-700 w-full mt-2 rounded-lg">
+            Login
+          </button>
         </fieldset>
       </form>
     </div>

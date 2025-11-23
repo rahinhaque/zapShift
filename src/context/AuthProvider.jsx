@@ -1,8 +1,10 @@
 import React from "react";
 import { AuthContext } from "./AuthContext";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import auth from "../../src/firebase/firebase.init";
-import { signInWithEmailAndPassword } from "firebase/auth/cordova";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import auth from "../firebase/firebase.init";
 
 const AuthProvider = ({ children }) => {
   const registerUser = (email, password) => {
