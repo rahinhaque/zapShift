@@ -1,5 +1,7 @@
 import { useForm } from "react-hook-form";
 import useAuth from "../../../hooks/useAuth";
+import { Link } from "react-router";
+import SocialLogin from "../Sociallogin/SocialLogin";
 
 const Login = () => {
   const {
@@ -77,6 +79,8 @@ const Login = () => {
             Login
           </button>
         </fieldset>
+        <p>New To zapShift? <Link to="/register" className="text-blue-400 underline">Register Now</Link></p>
+      <SocialLogin></SocialLogin>
       </form>
     </div>
   );
