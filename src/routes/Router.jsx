@@ -38,7 +38,8 @@ export const router = createBrowserRouter([
           <PrivateRoute>
             <SendPercel></SendPercel>
           </PrivateRoute>
-        )
+        ),
+        loader: () => fetch("/warehouses.json").then((res) => res.json()),
       },
       {
         path: "/rider",
