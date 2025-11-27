@@ -3,6 +3,9 @@ import { lazy } from "react";
 import Authlayout from "../layouts/Authlayout";
 import Login from "../pages/Auth/login/Login";
 import Register from "../pages/Auth/Register/Register";
+import Rider from "../pages/Rider/Rider";
+import PrivateRoute from "./PrivateRoute";
+import SendPercel from "../pages/Send Parcel/SendPercel";
 
 const RootLayout = lazy(() => import("../layouts/RootLayout"));
 const Home = lazy(() => import("../pages/home/home/Home"));
@@ -30,6 +33,22 @@ export const router = createBrowserRouter([
         Component: AboutUs,
       },
       {
+        path: "/send-percel",
+        element: (
+          <PrivateRoute>
+            <SendPercel></SendPercel>
+          </PrivateRoute>
+        )
+      },
+      {
+        path: "/rider",
+        element: (
+          <PrivateRoute>
+            <Rider></Rider>
+          </PrivateRoute>
+        ),
+      },
+      {
         path: "#",
         Component: Error,
       },
@@ -41,13 +60,12 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/login",
-        Component: Login
+        Component: Login,
       },
       {
         path: "register",
-        Component: Register
+        Component: Register,
       },
-       
-    ]
-  }
+    ],
+  },
 ]);

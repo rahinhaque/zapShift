@@ -7,12 +7,13 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  updateProfile,
 } from "firebase/auth";
 import auth from "../firebase/firebase.init";
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loader, setLoader] = useState(false);
+  const [loader, setLoader] = useState(true);
 
   const registerUser = (email, password) => {
     setLoader(true);
@@ -36,6 +37,10 @@ const AuthProvider = ({ children }) => {
     
   }
 
+  const updateUserProfile = (profile) => {
+    return updateProfile(auth.currentUser , profile)
+  }
+
 
   //observer set-user..
   useEffect(() => {
@@ -49,6 +54,7 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   const authInfo = {
+    updateUserProfile,
     registerUser,
     signInUser,
     signInGoogle,

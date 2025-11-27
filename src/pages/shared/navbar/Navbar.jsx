@@ -51,12 +51,12 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink
-          to="/pricing"
+          to="/send-percel"
           className={({ isActive }) =>
             isActive ? "text-primary font-bold underline" : ""
           }
         >
-          Pricing
+          Send-Percel
         </NavLink>
       </li>
       <li>

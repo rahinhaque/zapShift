@@ -1,8 +1,9 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../../../hooks/useAuth";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigation } from "react-router";
 import SocialLogin from "../Sociallogin/SocialLogin";
+import axios, { Axios } from "axios";
 
 const Register = () => {
   const {
@@ -11,17 +12,54 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
-  const { registerUser } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigation()
+
+  const { registerUser, updateUserProfile } = useAuth();
 
   const handleRegistration = (data) => {
     console.log("After Register", data);
-    registerUser(data.email, data.password)
-      .then((result) => {
-        console.log(result.user);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+
+   const profileImg = data.photo[0];
+
+   registerUser(data.email, data.password)
+     .then((result) => {
+       console.log(result.user);
+
+       const formData = new FormData();
+       formData.append("image", profileImg);
+
+       const imgAPI_URL = `https://api.imgbb.com/1/upload?key=${
+         import.meta.env.VITE_image_host
+       }`;
+
+       axios
+         .post(imgAPI_URL, formData)
+         .then((res) => {
+           console.log("after image upload", res.data.data.url);
+
+           const userProfile = {
+             displayName: data.name,
+             photoURL: res.data.data.url,
+           };
+           updateUserProfile(userProfile)
+           .then(()=> {
+            console.log("user profile updated")
+            navigate(location.state || "/");
+           })
+           .catch(error => {
+            console.log(error);
+           });
+
+         })
+         .catch((err) => {
+           console.log("image upload failed", err);
+         });
+     })
+     .catch((error) => {
+       console.log(error);
+     });
+
   };
 
   return (
@@ -38,6 +76,39 @@ const Register = () => {
         className="bg-white shadow-md rounded-xl p-8 space-y-4 border border-gray-100"
       >
         <fieldset className="fieldset space-y-4">
+          {/* NAme field  */}
+          <div>
+            <label className="label font-medium text-gray-700">Name</label>
+            <input
+              type="text"
+              {...register("name", { required: true })}
+              className="input input-bordered w-full rounded-lg"
+              placeholder="Enter your Name"
+            />
+            {errors.name?.type === "required" && (
+              <p className="text-red-500 text-sm mt-1">
+                Name is required to register!
+              </p>
+            )}
+          </div>
+
+          {/* photo field  */}
+          <div>
+            <label className="label  text-gray-700"></label>
+            <fieldset className="fieldset">
+              <legend className="">Upload Photo</legend>
+              <input
+                type="file"
+                className="file-input"
+                {...register("photo", { required: true })}
+              />
+              <label className="label">Max size 2MB</label>
+            </fieldset>
+            {errors.photo?.type === "required" && (
+              <p className="text-red-500 text-sm mt-1">Upload Your Photo.</p>
+            )}
+          </div>
+
           {/* Email */}
           <div>
             <label className="label font-medium text-gray-700">Email</label>
@@ -94,8 +165,13 @@ const Register = () => {
             Login
           </button>
         </fieldset>
-        <p>Already Have an account? <Link to="/login" className="text-blue-400 underline">Login Now</Link></p>
-      <SocialLogin></SocialLogin>
+        <p>
+          Already Have an account?{" "}
+          <Link to="/login" state={location.state} className="text-blue-400 underline">
+            Login Now
+          </Link>
+        </p>
+        <SocialLogin></SocialLogin>
       </form>
     </div>
   );
