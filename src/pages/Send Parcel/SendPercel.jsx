@@ -1,5 +1,5 @@
 import React from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { useLoaderData } from "react-router";
 
 const SendPercel = () => {
@@ -10,6 +10,7 @@ const SendPercel = () => {
     register,
     handleSubmit,
     watch,
+    control,
     formState: { errors },
   } = useForm();
 
@@ -19,6 +20,7 @@ const SendPercel = () => {
 
   // Watching selected region
   const senderRegion = watch("senderRegion");
+  const receiverRegion = useWatch({ control, name: "receiverRegion" });
 
   // Function to get districts by region
   const districtsByRegion = (region) => {
@@ -200,10 +202,26 @@ const SendPercel = () => {
                   className="select"
                 >
                   <option disabled>Pick a Region</option>
-
                   {regions.map((r, index) => (
                     <option key={index} value={r}>
                       {r}
+                    </option>
+                  ))}
+                </select>
+              </fieldset>
+
+              {/* Receiver District */}
+              <fieldset className="fieldset">
+                <legend className="fieldset-legend">Receiver District</legend>
+                <select
+                  defaultValue="Pick a District"
+                  {...register("receiverDistrict")}
+                  className="select"
+                >
+                  <option disabled>Pick a District</option>
+                  {districtsByRegion(receiverRegion).map((d, index) => (
+                    <option  key={index} value={d}>
+                      {d}
                     </option>
                   ))}
                 </select>
