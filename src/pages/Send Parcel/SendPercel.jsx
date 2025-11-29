@@ -1,6 +1,7 @@
 import React from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useLoaderData } from "react-router";
+import Swal from "sweetalert2";
 
 const SendPercel = () => {
   const serviceCenter = useLoaderData();
@@ -31,6 +32,48 @@ const SendPercel = () => {
 
   const handleSendPercel = (data) => {
     console.log(data);
+
+    const isSameDistrict = data.senderDistrict === data.receiverDistrict;
+    const isDocument = data.percelType === "document";
+    const parcelWeight = parseFloat(data.percelWeight);
+    console.log(isSameDistrict, isDocument, parcelWeight);
+
+    let cost = 0;
+
+    if (isDocument) {
+      cost = isSameDistrict ? 60 : 80;
+    } else {
+      if (parcelWeight < 3) {
+        cost = isSameDistrict ? 110 : 150;
+      } else {
+        const minCharge = isSameDistrict ? 110 : 150;
+        const extraWeight = parcelWeight - 3;
+        const extraCharge = isSameDistrict
+          ? extraWeight * 40
+          : extraWeight * 40 + 40;
+
+        cost = minCharge + extraCharge;
+      }
+    }
+
+    console.log(cost, "cost");
+    Swal.fire({
+      title: "Please confirm the cost",
+      html: `You will be charged <span class="text-blue-300 font-bold">${cost} TK</span>`,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Confirmed",
+          text: "Your percel has been confirmed.",
+          icon: "success",
+        });
+      }
+    });
   };
 
   return (
@@ -220,7 +263,7 @@ const SendPercel = () => {
                 >
                   <option disabled>Pick a District</option>
                   {districtsByRegion(receiverRegion).map((d, index) => (
-                    <option  key={index} value={d}>
+                    <option key={index} value={d}>
                       {d}
                     </option>
                   ))}
