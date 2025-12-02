@@ -2,6 +2,8 @@ import React from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { useLoaderData } from "react-router";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAuth from "../../hooks/useAuth";
 
 const SendPercel = () => {
   const serviceCenter = useLoaderData();
@@ -12,8 +14,11 @@ const SendPercel = () => {
     handleSubmit,
     watch,
     control,
-    formState: { errors },
+    // formState: { errors },
   } = useForm();
+
+  const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
 
   // Regions list
   const regionsDuplicate = serviceCenter.map((c) => c.region);
@@ -67,11 +72,16 @@ const SendPercel = () => {
       confirmButtonText: "Yes",
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire({
-          title: "Confirmed",
-          text: "Your percel has been confirmed.",
-          icon: "success",
+        //save the percel info to the database
+        axiosSecure.post("/parcels", data).then((res) => {
+          console.log("after saving percel", res.data);
         });
+
+        // Swal.fire({
+        //   title: "Confirmed",
+        //   text: "Your percel has been confirmed.",
+        //   icon: "success",
+        // });
       }
     });
   };
@@ -152,6 +162,8 @@ const SendPercel = () => {
               <input
                 type="text"
                 {...register("senderEmail")}
+                defaultValue={user?.email}
+                readOnly
                 className="input w-full text-black"
                 placeholder="Sender Email"
               />
