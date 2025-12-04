@@ -1,21 +1,14 @@
 import React from "react";
 import Logo from "../../../components/logo/Logo";
-import { NavLink } from "react-router";
-import useAuth from "../../../hooks/useAuth"
-import { Link } from "react-router";
+import { NavLink, Link } from "react-router";
+import useAuth from "../../../hooks/useAuth";
 
 const Navbar = () => {
-
   const { user, signOutUser } = useAuth();
 
   const handleSignOut = () => {
-    signOutUser()
-    .then()
-    .catch(error => {
-      console.log(error);
-    });
-  }
-
+    signOutUser().catch((error) => console.log(error));
+  };
 
   const links = (
     <>
@@ -26,9 +19,10 @@ const Navbar = () => {
             isActive ? "text-primary font-bold underline" : ""
           }
         >
-          Sevices
+          Services
         </NavLink>
       </li>
+
       <li>
         <NavLink
           to="/coverage"
@@ -39,6 +33,7 @@ const Navbar = () => {
           Coverage
         </NavLink>
       </li>
+
       <li>
         <NavLink
           to="/about"
@@ -49,6 +44,7 @@ const Navbar = () => {
           About Us
         </NavLink>
       </li>
+
       <li>
         <NavLink
           to="/send-percel"
@@ -56,9 +52,10 @@ const Navbar = () => {
             isActive ? "text-primary font-bold underline" : ""
           }
         >
-          Send-Percel
+          Send Parcel
         </NavLink>
       </li>
+
       <li>
         <NavLink
           to="/blog"
@@ -69,6 +66,7 @@ const Navbar = () => {
           Blog
         </NavLink>
       </li>
+
       <li>
         <NavLink
           to="/contact"
@@ -79,14 +77,28 @@ const Navbar = () => {
           Contact
         </NavLink>
       </li>
+
+      {user && (
+        <li>
+          <NavLink
+            to="/dashboard/my-percels"
+            className={({ isActive }) =>
+              isActive ? "text-primary font-bold underline" : ""
+            }
+          >
+            Dashboard
+          </NavLink>
+        </li>
+      )}
     </>
   );
 
   return (
-    <div className="navbar bg-base-100 shadow-sm space-y-4 rounded-2xl max-w-7xl mx-auto">
+    <div className="navbar bg-base-100 shadow-sm rounded-2xl max-w-7xl mx-auto">
+      {/* LEFT */}
       <div className="navbar-start">
-        <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+        <div className="dropdown lg:hidden">
+          <button tabIndex={0} className="btn btn-ghost">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -94,39 +106,44 @@ const Navbar = () => {
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
-              {" "}
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
                 d="M4 6h16M4 12h8m-8 6h16"
-              />{" "}
+              />
             </svg>
-          </div>
+          </button>
           <ul
-            tabIndex="-1"
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+            tabIndex={0}
+            className="menu menu-sm dropdown-content bg-base-100 rounded-box mt-3 w-52 p-2 shadow"
           >
             {links}
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">
-          <Logo></Logo>
-        </a>
+
+        <Link className="btn btn-ghost text-xl">
+          <Logo />
+        </Link>
       </div>
+
+      {/* CENTER */}
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">{links}</ul>
+        <ul className="menu menu-horizontal px-1 gap-5">{links}</ul>
       </div>
+
+      {/* RIGHT */}
       <div className="navbar-end gap-3">
         {user ? (
-          <a onClick={handleSignOut} className="btn">
+          <button onClick={handleSignOut} className="btn">
             Sign Out
-          </a>
+          </button>
         ) : (
           <Link to="/login" className="btn">
             Login
           </Link>
         )}
+
         <Link to="/rider" className="btn btn-primary text-gray-800">
           Be a Rider
         </Link>

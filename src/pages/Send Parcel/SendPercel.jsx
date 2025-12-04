@@ -154,6 +154,8 @@ const SendPercel = () => {
               <input
                 type="text"
                 {...register("senderName")}
+                defaultValue={user?.displayName}
+                readOnly
                 className="input w-full text-black"
                 placeholder="Sender Name"
               />

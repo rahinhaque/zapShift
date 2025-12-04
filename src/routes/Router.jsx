@@ -6,6 +6,8 @@ import Register from "../pages/Auth/Register/Register";
 import Rider from "../pages/Rider/Rider";
 import PrivateRoute from "./PrivateRoute";
 import SendPercel from "../pages/Send Parcel/SendPercel";
+import DashBoardLayout from "../layouts/DashBoardLayout";
+import MyPercels from "../pages/Dashboard/Mypercels/MyPercels";
 
 const RootLayout = lazy(() => import("../layouts/RootLayout"));
 const Home = lazy(() => import("../pages/home/home/Home"));
@@ -69,4 +71,18 @@ export const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/dashboard",
+    element: (
+      <PrivateRoute>
+        <DashBoardLayout></DashBoardLayout>
+      </PrivateRoute>
+    ) ,
+    children: [
+      {
+        path: "my-percels",
+        Component: MyPercels
+      }
+    ]
+  }
 ]);
