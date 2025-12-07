@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, Outlet } from 'react-router';
+import { Link, NavLink, Outlet } from 'react-router';
 
 const DashBoardLayout = () => {
   return (
@@ -33,7 +33,6 @@ const DashBoardLayout = () => {
         </nav>
         {/* Page content here */}
         <Outlet></Outlet>
-        <div className="p-4">Page Content</div>
       </div>
 
       <div className="drawer-side is-drawer-close:overflow-visible">
@@ -68,6 +67,35 @@ const DashBoardLayout = () => {
                 </svg>
                 <span className="is-drawer-close:hidden">Homepage</span>
               </Link>
+            </li>
+
+            {/* DashBoard Links  */}
+            <li>
+              <NavLink
+                to="/dashboard/my-percels"
+                className="flex items-center gap-2 is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="My Percels"
+              >
+                {/* Icon */}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  strokeLinejoin="round"
+                  strokeLinecap="round"
+                  strokeWidth="2"
+                  fill="none"
+                  stroke="currentColor"
+                  className="size-5"
+                >
+                  <path d="M3 7h11v10H3z" />
+                  <path d="M14 10h4l3 3v4h-7z" />
+                  <circle cx="7.5" cy="17" r="2" />
+                  <circle cx="17.5" cy="17" r="2" />
+                </svg>
+
+                {/* Text (hidden when collapsed) */}
+                <span className="is-drawer-close:hidden">My Percels</span>
+              </NavLink>
             </li>
 
             {/* List item */}

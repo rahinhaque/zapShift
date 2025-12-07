@@ -86,7 +86,7 @@ const Navbar = () => {
               isActive ? "text-primary font-bold underline" : ""
             }
           >
-            Dashboard
+            My-Percels
           </NavLink>
         </li>
       )}
